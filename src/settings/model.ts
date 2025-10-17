@@ -81,6 +81,7 @@ export interface CopilotSettings {
   xaiApiKey: string;
   mistralApiKey: string;
   deepseekApiKey: string;
+  zhipuApiKey: string;
   defaultChainType: ChainType;
   defaultModelKey: string;
   embeddingModelKey: string;
@@ -104,6 +105,7 @@ export interface CopilotSettings {
   enableIndexSync: boolean;
   debug: boolean;
   enableEncryption: boolean;
+  useWebSearch: boolean;
   maxSourceChunks: number;
   qaExclusions: string;
   qaInclusions: string;

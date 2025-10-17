@@ -36,6 +36,7 @@ import { Notice } from "obsidian";
 import ChainManager from "./chainManager";
 import { COPILOT_TOOL_NAMES, IntentAnalyzer } from "./intentAnalyzer";
 import ProjectManager from "./projectManager";
+import { WebSearchTool } from "@/tools/webSearchTool";
 
 class ThinkBlockStreamer {
   private hasOpenThinkBlock = false;
@@ -326,6 +327,32 @@ class LLMChainRunner extends BaseChainRunner {
     const streamer = new ThinkBlockStreamer(updateCurrentAiMessage);
 
     try {
+      const query = userMessage.message;
+      const searchKeywords = ["搜索", "查询", "最新的", "是什么型号", "告诉我"];
+      const needsSearch = searchKeywords.some((keyword) => query.includes(keyword));
+      if (needsSearch && getSettings().useWebSearch) {
+        try {
+          new Notice("Performing web search...");
+          const searchTool = new WebSearchTool();
+          const searchResults = await searchTool._call(query);
+          logInfo("==== Web Search Results ====\n", searchResults);
+          const enhancedPromptTemplate = `
+    Based on the following web search results, please provide a direct and comprehensive answer to the user's original question.
+
+    ## Web Search Results:
+    ---
+    ${searchResults}
+    ---
+
+    ## User's Original Question:
+    "${query}"
+    `;
+          userMessage.message = enhancedPromptTemplate;
+        } catch (error) {
+          console.error("Web search failed:", error);
+          new Notice("Web search failed. See console for details.");
+        }
+      }
       // Get chat history from memory
       const memory = this.chainManager.memoryManager.getMemory();
       const memoryVariables = await memory.loadMemoryVariables({});

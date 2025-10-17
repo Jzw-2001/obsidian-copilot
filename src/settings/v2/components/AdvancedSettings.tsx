@@ -31,6 +31,23 @@ export const AdvancedSettings: React.FC = () => {
 
           <SettingItem
             type="switch"
+            title="Enable Web Search"
+            description="Allow Copilot to search the web to answer questions."
+            checked={settings.useWebSearch}
+            onCheckedChange={(checked) => {
+              updateSetting("useWebSearch", checked);
+            }}
+          />
+          <SettingItem
+            type="text"
+            title="Zhipu API Key"
+            description="API Key for Zhipu AI web search."
+            value={settings.zhipuApiKey}
+            onChange={(value) => updateSetting("zhipuApiKey", value)}
+            placeholder="Enter your Zhipu API Key"
+          />
+          <SettingItem
+            type="switch"
             title="Debug Mode"
             description="Debug mode will log some debug message to the console."
             checked={settings.debug}

@@ -738,6 +738,7 @@ export const DEFAULT_SETTINGS: CopilotSettings = {
   debug: false,
   enableEncryption: false,
   useWebSearch: false,
+  searchEngineType: "free",
   maxSourceChunks: 3,
   groqApiKey: "",
   activeModels: BUILTIN_CHAT_MODELS,

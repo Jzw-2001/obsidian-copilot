@@ -37,6 +37,7 @@ import ChainManager from "./chainManager";
 import { COPILOT_TOOL_NAMES, IntentAnalyzer } from "./intentAnalyzer";
 import ProjectManager from "./projectManager";
 import { WebSearchTool } from "@/tools/webSearchTool";
+import { FreeBingSearchTool } from "@/tools/freeBingSearchTool";
 
 class ThinkBlockStreamer {
   private hasOpenThinkBlock = false;
@@ -513,10 +514,15 @@ class LLMChainRunner extends BaseChainRunner {
 
           // 如果需要搜索，执行网络搜索
           if (needsWebSearch) {
-            new Notice("正在进行网络搜索...");
-            logInfo(`==== Executing web search with query: ${searchQuery} ====`);
-
-            const searchTool = new WebSearchTool();
+            const searchEngineType = getSettings().searchEngineType || "free";
+            const searchEngineName = searchEngineType === "zhipu" ? "智谱AI" : "免费搜索引擎";
+            new Notice(`正在使用${searchEngineName}进行网络搜索...`);
+            logInfo(`==== Executing web search with ${searchEngineName} (${searchEngineType}), query: ${searchQuery} ====`);
+            
+            // 根据设置选择搜索工具
+            const searchTool = searchEngineType === "zhipu" 
+              ? new WebSearchTool() 
+              : new FreeBingSearchTool();
             const searchResults = await searchTool._call(searchQuery);
 
             if (searchResults) {

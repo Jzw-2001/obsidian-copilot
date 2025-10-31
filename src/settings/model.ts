@@ -106,6 +106,7 @@ export interface CopilotSettings {
   debug: boolean;
   enableEncryption: boolean;
   useWebSearch: boolean;
+  searchEngineType: "zhipu" | "free"; // 搜索引擎类型：智谱AI或免费搜索
   maxSourceChunks: number;
   qaExclusions: string;
   qaInclusions: string;

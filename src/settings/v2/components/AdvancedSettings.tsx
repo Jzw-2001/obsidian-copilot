@@ -38,7 +38,7 @@ export const AdvancedSettings: React.FC = () => {
               updateSetting("useWebSearch", checked);
             }}
           />
-          
+
           {settings.useWebSearch && (
             <>
               <SettingItem
@@ -52,7 +52,7 @@ export const AdvancedSettings: React.FC = () => {
                   { label: "Zhipu AI (智谱AI - 需要API Key)", value: "zhipu" },
                 ]}
               />
-              
+
               {settings.searchEngineType === "zhipu" && (
                 <SettingItem
                   type="text"

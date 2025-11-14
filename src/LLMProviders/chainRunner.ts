@@ -517,12 +517,13 @@ class LLMChainRunner extends BaseChainRunner {
             const searchEngineType = getSettings().searchEngineType || "free";
             const searchEngineName = searchEngineType === "zhipu" ? "智谱AI" : "免费搜索引擎";
             new Notice(`正在使用${searchEngineName}进行网络搜索...`);
-            logInfo(`==== Executing web search with ${searchEngineName} (${searchEngineType}), query: ${searchQuery} ====`);
-            
+            logInfo(
+              `==== Executing web search with ${searchEngineName} (${searchEngineType}), query: ${searchQuery} ====`
+            );
+
             // 根据设置选择搜索工具
-            const searchTool = searchEngineType === "zhipu" 
-              ? new WebSearchTool() 
-              : new FreeBingSearchTool();
+            const searchTool =
+              searchEngineType === "zhipu" ? new WebSearchTool() : new FreeBingSearchTool();
             const searchResults = await searchTool._call(searchQuery);
 
             if (searchResults) {
